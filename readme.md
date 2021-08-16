@@ -15,3 +15,6 @@ Task : create a workflow with a ticketline.
 
 1. ERD diagram to visualize the project.
 2. Setting up the repo, boilerplate and Git rules on working together.
+3. Database connection.
+4. Authentication with a user entity first. make:user not make entity!
+make:user will import interface
