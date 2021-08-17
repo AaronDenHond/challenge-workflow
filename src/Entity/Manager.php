@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ManagerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
 
@@ -24,6 +26,17 @@ class Manager extends User
      */
     private $userID;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Agent::class, mappedBy="managerId")
+     */
+    private $agents;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->agents = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,6 +50,36 @@ class Manager extends User
     public function setUserID(User $userID): self
     {
         $this->userID = $userID;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Agent[]
+     */
+    public function getAgents(): Collection
+    {
+        return $this->agents;
+    }
+
+    public function addAgent(Agent $agent): self
+    {
+        if (!$this->agents->contains($agent)) {
+            $this->agents[] = $agent;
+            $agent->setManagerId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgent(Agent $agent): self
+    {
+        if ($this->agents->removeElement($agent)) {
+            // set the owning side to null (unless already changed)
+            if ($agent->getManagerId() === $this) {
+                $agent->setManagerId(null);
+            }
+        }
 
         return $this;
     }

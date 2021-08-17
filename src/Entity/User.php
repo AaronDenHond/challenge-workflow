@@ -61,6 +61,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $lastName;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Agent::class, mappedBy="userId", cascade={"persist", "remove"})
+     */
+    private $agent;
+
 
 
     public function __construct()
@@ -245,6 +250,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getAgent(): ?Agent
+    {
+        return $this->agent;
+    }
+
+    public function setAgent(Agent $agent): self
+    {
+        // set the owning side of the relation if necessary
+        if ($agent->getUserId() !== $this) {
+            $agent->setUserId($this);
+        }
+
+        $this->agent = $agent;
 
         return $this;
     }
