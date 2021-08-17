@@ -51,7 +51,8 @@ class WorkflowAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        return new RedirectResponse($this->urlGenerator->generate('ticket_index'));
+        //REROUTE TO /TICKET UPON SUCCESFULL LOGIN
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
         
     }

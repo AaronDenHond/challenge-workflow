@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $tickets;
 
-    
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -64,7 +64,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
-        
     }
 
     public function getId(): ?int
@@ -222,4 +221,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    public function __toString()
+    {
+        return (string) $this->firstName;
+    }
 }
