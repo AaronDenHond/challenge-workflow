@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=AgentRepository::class)
  */
-class Agent
+class Agent extends User
 {
     /**
      * @ORM\Id
