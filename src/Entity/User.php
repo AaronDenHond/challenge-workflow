@@ -61,6 +61,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $lastName;
 
+
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -228,5 +230,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return (string) $this->firstName;
+    }
+
+    public function getManager(): ?Manager
+    {
+        return $this->manager;
+    }
+
+    public function setManager(Manager $manager): self
+    {
+        // set the owning side of the relation if necessary
+        if ($manager->getUserID() !== $this) {
+            $manager->setUserID($this);
+        }
+
+        $this->manager = $manager;
+
+        return $this;
     }
 }
