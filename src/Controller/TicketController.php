@@ -24,6 +24,9 @@ class TicketController extends AbstractController
     #[Route('/new', name: 'ticket_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
+
+         /**
+          * TODO : Get actual user object from logged in state. If too spicy find user by id via UserRepository, in param of new userRepo  */
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
