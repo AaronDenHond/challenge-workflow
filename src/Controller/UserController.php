@@ -57,7 +57,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
+
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
         }
