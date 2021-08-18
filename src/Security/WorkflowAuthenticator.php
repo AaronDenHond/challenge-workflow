@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,15 +47,23 @@ class WorkflowAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+          $user = $token->getUser();
+          var_dump($user);
+        if ( in_array("ROLE_ADMIN", $user->getRoles() ) || in_array("ROLE_AGENT", $user->getRoles() ))   {
+            return new RedirectResponse($this->urlGenerator->generate('ticket_index'));
+        }
+        //in_array to check if role is in role array.first parameter is what u wanna check for, second parameter is array you check in. returns bool.
+        else { 
+            return new RedirectResponse($this->urlGenerator->generate('my_tickets'));
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-
-        // For example:
-        return new RedirectResponse($this->urlGenerator->generate('my_tickets'));
+        //ROUTE DEPENDING ON ROLES
         //REROUTE TO /TICKET UPON SUCCESFULL LOGIN
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-        
+
     }
 
     protected function getLoginUrl(Request $request): string

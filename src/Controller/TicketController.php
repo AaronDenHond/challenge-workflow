@@ -9,8 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CommentRepository;
 
-#[Route('/ticket')]
+#[Route('/tickets')]
 class TicketController extends AbstractController
 {
     #[Route('/', name: 'ticket_index', methods: ['GET'])]
@@ -45,13 +46,17 @@ class TicketController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'ticket_show', methods: ['GET'])]
+     #[Route('/{id}', name: 'ticket_show', methods: ['GET'])]
     public function show(Ticket $ticket): Response
     {
+
+        $comments = $ticket->getComments();
+
         return $this->render('ticket/show.html.twig', [
-            'ticket' => $ticket,
+            'ticket' => $ticket, 
+            'comments' => $comments,
         ]);
-    }
+    } 
 
     #[Route('/{id}/edit', name: 'ticket_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ticket $ticket): Response

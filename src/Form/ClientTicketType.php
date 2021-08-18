@@ -14,6 +14,7 @@ class ClientTicketType extends AbstractType
         $builder
             ->add('subject')
             ->add('messageBody')
+            
         ;
     }
 

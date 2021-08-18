@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Ticket;
 use App\Form\ClientTicketType;
 use App\Repository\TicketRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,7 +39,7 @@ class ClientTicketController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($ticket);
             $entityManager->flush();
-            return $this->redirectToRoute('ticket_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('my_tickets', [], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('client_ticket/index.html.twig', [
             'ticket'=> $ticket,
