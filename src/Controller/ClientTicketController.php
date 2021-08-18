@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ticket;
 use App\Form\ClientTicketType;
+use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,10 +12,21 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class LogIssueController extends AbstractController
+class ClientTicketController extends AbstractController
 {
+
+    #[Route('/mytickets', name: 'my_tickets')]
+    public function index(TicketRepository $ticketRepository): Response
+    {
+
+        return $this->render('client_ticket/myTickets.html.twig', [
+            'tickets' => $ticketRepository->findBy(
+                [ 'createdBy' => $this->getUser()]),
+        ]);
+    }
+
     #[Route('/logissue', name: 'log_issue')]
-    public function index(Request $request, UserRepository $userRepository): Response
+    public function logIssue(Request $request): Response
     {
         $ticket = new Ticket();
         $form = $this->createForm(ClientTicketType::class, $ticket);
@@ -27,13 +39,10 @@ class LogIssueController extends AbstractController
             $ticket->setCreatedBy($user);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($ticket);
-
-
             $entityManager->flush();
-
             return $this->redirectToRoute('ticket_index', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->renderForm('log_issue/index.html.twig', [
+        return $this->renderForm('client_ticket/index.html.twig', [
             'ticket'=> $ticket,
             'form' => $form
         ]);
