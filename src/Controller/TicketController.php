@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\CommentRepository;
+
 
 #[Route('/tickets')]
 class TicketController extends AbstractController
@@ -21,6 +21,7 @@ class TicketController extends AbstractController
             'tickets' => $ticketRepository->findAll(),
         ]);
     }
+    //USE REPOSITORIES FOR THE MAIN 4 : FIND ALL (GET ALL TICKETS), FINDBYID, FIND()
 
     #[Route('/new', name: 'ticket_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
@@ -31,6 +32,7 @@ class TicketController extends AbstractController
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
+        //request is what user sends, to check if valid we need request
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -49,7 +51,7 @@ class TicketController extends AbstractController
      #[Route('/{id}', name: 'ticket_show', methods: ['GET'])]
     public function show(Ticket $ticket): Response
     {
-
+     //LOGIC TO GET COMMENTS PER TICKET, NO NEED FOR CommentRepository like this.
         $comments = $ticket->getComments();
 
         return $this->render('ticket/show.html.twig', [

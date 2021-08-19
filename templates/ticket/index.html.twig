@@ -14,7 +14,9 @@
                 <th>Status</th>
                 <th>DateClosed</th>
                 <th>IsSecondLineProblem</th>
+                <th>AssignedToAgent</th>
                 <th>actions</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -26,6 +28,7 @@
                 <td>{{ ticket.status }}</td>
                 <td>{{ ticket.dateClosed ? ticket.dateClosed|date('Y-m-d') : '' }}</td>
                 <td>{{ ticket.isSecondLineProblem ? 'Yes' : 'No' }}</td>
+                <td>{{ ticket.assignedToAgent}}</td>
                 <td>
                     <a href="{{ path('ticket_show', {'id': ticket.id}) }}">show</a>
                     <a href="{{ path('ticket_edit', {'id': ticket.id}) }}">edit</a>

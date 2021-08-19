@@ -42,3 +42,32 @@ For example we will never getComments() via user, always via ticket.
 done : routing to right ticket pool, access for agents/admins and clients, making comment entitiy and showing it on the template.
 
 TODO : add table header for comments etc.
+
+### Current Functionality :
+
+- Guest can register and become Users. Default role is ROLE_USER, which clients have.
+
+- Hierarchical role system : Agents and Managers will also have ROLE_USER.
+
+- Authentication : for registering and logging in.
+
+- Rerouting for most links/buttons in place.
+
+- Rerouting on log in depending on role.
+
+- Ticket CRUD for agents and managers.
+
+- User CRUD for managers.
+
+- Access Control depending on roles.
+
+- Routes :
+  CLIENTS : / (homepage), /logissue (new ticket for clients), /mytickets (ticket by clientID)
+  AGENTS : / (homepage), tickets (overall ticket pool for agents, agent tickets and client tickets) /ticket/new (new ticket by agent)
+  MANAGER : same as agent, with /user (user crud for managers only)
+
+//setStatus closed if client wants to close ticket.
+
+//name relation to user not userID, mysql will it as user_id_id and namings make functions awkward to use.
+// NAME A RELATION TO THE ENTITY NAME, NOT THE PROPERTY.
+// Entity is Model in MVC AND Repositories are also Model, C is Controller, Form and Templates are View.

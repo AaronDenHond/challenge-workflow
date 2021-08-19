@@ -2,32 +2,29 @@
 
 namespace App\Form;
 
-use App\Entity\Ticket;
+use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TicketType extends AbstractType
+class CommentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('subject')
-            ->add('messageBody')
-            ->add('status')
-            ->add('dateClosed')
-            ->add('isSecondLineProblem')
-            ->add('createdBy')
-            ->add('assignedToAgent')
-            ->add('closedBy')
             
+            ->add('commentContent')
+            ->add('save', SubmitType::class, [
+                'attr' => ['class' => 'save'],
+            ]);
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Ticket::class,
+            'data_class' => Comment::class,
         ]);
     }
 }
