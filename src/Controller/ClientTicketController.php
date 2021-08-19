@@ -64,7 +64,7 @@ class ClientTicketController extends AbstractController
             $user = $this->getUser();
            
             //agents need to have functionality to set private or not
-            $comment->setPrivate(false);
+            
             $comment->setUserID($user);
             $comment->setTicketID($ticket);
                 
