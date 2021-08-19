@@ -45,11 +45,15 @@
 		</tbody>
 	</table>
 
-	
+	{{ form_start(form) }}
+		{{ form_widget(form.commentContent) }}
+	{% if canSetPrivate %}
+		{{ form_widget(form.private) }}
+	{% endif %}
+		{{ form_widget(form.save) }}
 
-	
+	{{ form_end(form) }}
 
-	{{form(form)}}
 
 	{{ include('ticket/_delete_form.html.twig') }}
 

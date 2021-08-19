@@ -20,10 +20,10 @@ class ClientTicketController extends AbstractController
     #[Route('/', name: 'my_tickets')]
     public function index(TicketRepository $ticketRepository): Response
     {
-        
+
         return $this->render('client_ticket/myTickets.html.twig', [
             'tickets' => $ticketRepository->findBy(
-                [ 'createdBy' => $this->getUser()]),
+                ['createdBy' => $this->getUser()]),
         ]);
     }
 
@@ -45,7 +45,7 @@ class ClientTicketController extends AbstractController
             return $this->redirectToRoute('my_tickets', [], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('client_ticket/index.html.twig', [
-            'ticket'=> $ticket,
+            'ticket' => $ticket,
             'form' => $form
         ]);
     }
@@ -53,36 +53,38 @@ class ClientTicketController extends AbstractController
     #[Route('/{id}', name: 'myticket_show', methods: ['GET', 'POST'])]
     public function show(Ticket $ticket, Request $request): Response
     {
-     //LOGIC TO GET COMMENTS PER TICKET, NO NEED FOR CommentRepository like this.
+        //LOGIC TO GET COMMENTS PER TICKET, NO NEED FOR CommentRepository like this.
         $comments = $ticket->getComments();
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()) {
-           
-            $user = $this->getUser();
-           
+        $user = $this->getUser();
+        $canSetPrivate = false;
+        if (in_array("ROLE_ADMIN", $user->getRoles()) || in_array("ROLE_AGENT", $user->getRoles())) {
+            $canSetPrivate= true;
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
             //agents need to have functionality to set private or not
-            
+
             $comment->setUserID($user);
             $comment->setTicketID($ticket);
-                
-        
-            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
-            
+
         }
 
         //no need to redirect here, we're alrdy 
 
         return $this->renderForm('client_ticket/show.html.twig', [
-            'ticket' => $ticket, 
+            'canSetPrivate' => $canSetPrivate,
+            'ticket' => $ticket,
             'comments' => $comments,
             'form' => $form,
             //don't forget to give form variable with the render or it won't work! no form is render, form is renderForm
         ]);
-    } 
+    }
 }

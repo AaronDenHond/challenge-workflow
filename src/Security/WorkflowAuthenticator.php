@@ -48,7 +48,6 @@ class WorkflowAuthenticator extends AbstractLoginFormAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
           $user = $token->getUser();
-          var_dump($user);
         if ( in_array("ROLE_ADMIN", $user->getRoles() ) || in_array("ROLE_AGENT", $user->getRoles() ))   {
             return new RedirectResponse($this->urlGenerator->generate('ticket_index'));
         }
