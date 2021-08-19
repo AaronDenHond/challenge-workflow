@@ -4,59 +4,67 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Ticket</h1>
+    <style>
+        .hidden-row{
+            display:none
+        }
+    </style>
+    <h1>Ticket</h1>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ ticket.id }}</td>
-			</tr>
-			<tr>
-				<th>Subject</th>
-				<td>{{ ticket.subject }}</td>
-			</tr>
-			<tr>
-				<th>MessageBody</th>
-				<td>{{ ticket.messageBody }}</td>
-			</tr>
-			<tr>
-				<th>Status</th>
-				<td>{{ ticket.status }}</td>
-			</tr>
-			<tr>
-				<th>DateClosed</th>
-				<td>{{ ticket.dateClosed ? ticket.dateClosed|date('Y-m-d') : '' }}</td>
-			</tr>
-			<tr>
-				<th>IsSecondLineProblem</th>
-				<td>{{ ticket.isSecondLineProblem ? 'Yes' : 'No' }}</td>
-			</tr>
-			<tr>
-			    <th>Comments</th>
-				<td>
-				<ul>
-					{% for comment in comments %}
-						<li>{{ comment.commentContent }}</li>
-					{% endfor %}
-				</ul>
-				<td>
-			</tr>
-		</tbody>
-	</table>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ ticket.id }}</td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td>{{ ticket.subject }}</td>
+        </tr>
+        <tr>
+            <th>MessageBody</th>
+            <td>{{ ticket.messageBody }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ ticket.status }}</td>
+        </tr>
+        <tr>
+            <th>DateClosed</th>
+            <td>{{ ticket.dateClosed ? ticket.dateClosed|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>IsSecondLineProblem</th>
+            <td>{{ ticket.isSecondLineProblem ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Comments</th>
+            <td>
+                <ul>
+                    {% for comment in comments %}
+                        <li>{{ comment.commentContent }}</li>
+                    {% endfor %}
+                </ul>
+            <td>
+        </tr>
+        </tbody>
+    </table>
 
-	{{ form_start(form) }}
-		{{ form_widget(form.commentContent) }}
-	{% if canSetPrivate %}
-		{{ form_widget(form.private) }}
-	{% endif %}
-		{{ form_widget(form.save) }}
+    {{ form_start(form) }}
+    {{ form_row(form.commentContent) }}
+    {% if canSetPrivate %}
+        {{ form_row(form.private) }}
+    {% else %}
+        {{ form_widget(form.private, { 'attr': {'class': 'hidden-row'} }) }}
 
-	{{ form_end(form) }}
+    {% endif %}
+    {{ form_widget(form.save) }}
+
+    {{ form_end(form) }}
 
 
-	{{ include('ticket/_delete_form.html.twig') }}
+    {{ include('ticket/_delete_form.html.twig') }}
 
-   
-   <a href="{{ path('my_tickets') }}">back to list</a>
+
+    <a href="{{ path('my_tickets') }}">back to list</a>
 {% endblock %}

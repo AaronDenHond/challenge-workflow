@@ -63,12 +63,11 @@ class ClientTicketController extends AbstractController
         if (in_array("ROLE_ADMIN", $user->getRoles()) || in_array("ROLE_AGENT", $user->getRoles())) {
             $canSetPrivate= true;
         }
-
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             //agents need to have functionality to set private or not
-
+            if (!$canSetPrivate){
+                $comment->setPrivate(false);
+            }
             $comment->setUserID($user);
             $comment->setTicketID($ticket);
             $entityManager = $this->getDoctrine()->getManager();

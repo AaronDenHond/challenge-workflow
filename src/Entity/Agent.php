@@ -74,4 +74,18 @@ class Agent extends User
 
         return $this;
     }
+    public function agentFromUser(User $user, $manager)
+    {
+        $this->userId =($user);
+        $this->setFirstName($user->getFirstName());
+        $this->setLastName($user->getLastName());
+        $this->setEmail($user->getEmail());
+        $this->setPassword($user->getPassword());
+        $this->setManagerId($manager);
+        $this->setIsSecondLine(false);
+        $this->setRoles($user->getRoles());
+
+    }
+
+
 }
