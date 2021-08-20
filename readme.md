@@ -71,3 +71,5 @@ TODO : add table header for comments etc.
 //name relation to user not userID, mysql will it as user_id_id and namings make functions awkward to use.
 // NAME A RELATION TO THE ENTITY NAME, NOT THE PROPERTY.
 // Entity is Model in MVC AND Repositories are also Model, C is Controller, Form and Templates are View.
+// WE NEED RELATIONAL PROPERTIES IN BOTH ENTITIES FOR ORM.
+// PROPERTIES ARE NOT ALWAYS DISPLAYED IN DATABASE BUT USEFUL FOR ORM.
