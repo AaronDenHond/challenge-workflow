@@ -240,7 +240,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-        return (string)$this->firstName;
+        return "{$this->firstName} {$this->lastName}";
     }
 
     public function getManager(): ?Manager

@@ -79,7 +79,7 @@ class UserController extends AbstractController
                     $entityManager->flush();
 
                 } else {
-                    var_dump($agent);
+                   /*  var_dump($agent); */
                 }
 
 
