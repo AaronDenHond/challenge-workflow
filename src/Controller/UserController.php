@@ -62,38 +62,27 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            // is role agent is set
             if (in_array("ROLE_AGENT", $user->getRoles())) {
-                // checking whether user was an agent before
                 $agent = $user->getAgent();
-                //$agent = $agentRepository->findOneBy(['userId' => $user->getId()]);
-
                 if (!$agent) {
                     //$manager = $managerRepository->findOneBy(["userId" => $this->getUser()]);
                     $manager = $this->getUser()->getManager();
                     //var_dump($manager);
                     $newAgent = new Agent();
                     $newAgent->agentFromUser($user, $manager);
+
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($newAgent);
                     $entityManager->flush();
 
-                } else {
-                   /*  var_dump($agent); */
                 }
-
-
+            } elseif (in_array("ROLE_USER", $user->getRoles())) {
+                $agent = $user->getAgent();
+                if ($agent) {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->remove($agent);
+                }
             }
-
-
-            // $agent = $agentRepository->findBy(['userId'=>$user->getId()]);
-            // if not => push to agent table as well
-            $this->getDoctrine()
-                ->getManager()
-                ->flush();
-
-
-            // return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit.html.twig', [
