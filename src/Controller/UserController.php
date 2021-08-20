@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Entity\User;
+use App\Entity\Manager;
 use App\Form\UserType;
 use App\Repository\AgentRepository;
 use App\Repository\ManagerRepository;
@@ -64,14 +65,12 @@ class UserController extends AbstractController
             // is role agent is set
             if (in_array("ROLE_AGENT", $user->getRoles())) {
                 // checking whether user was an agent before
-                $agent = $agentRepository->findOneBy(['userId' => $user]);
+                $agent = $agentRepository->findOneBy(['userId' => $user->getId()]);
 
-
-                 if (!$agent) {
-
-
-                    $manager = $managerRepository->findOneBy(['userID' =>$this->getUser()]);
+                if (!$agent) {
+                    $manager = $managerRepository->findOneBy(["userId" => $this->getUser()]);
                     var_dump($manager);
+                    //$manager = $managerRepository->findOneBy(array("userID" => 1));
                     $newAgent = new Agent();
                     $newAgent->agentFromUser($user, $manager);
                     $entityManager = $this->getDoctrine()->getManager();
@@ -80,7 +79,7 @@ class UserController extends AbstractController
 
                 } else {
                     var_dump($agent);
-                }  
+                }
 
 
             }

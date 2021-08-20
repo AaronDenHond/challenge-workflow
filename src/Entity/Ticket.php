@@ -51,7 +51,7 @@ class Ticket
     private $createdBy;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="no")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="assignedTickets")
      */
     private $assignedToAgent;
 

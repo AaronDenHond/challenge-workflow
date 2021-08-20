@@ -24,7 +24,7 @@ class Manager extends User
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="manager", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userID;
+    private $userId;
 
     /**
      * @ORM\OneToMany(targetEntity=Agent::class, mappedBy="managerId")
@@ -33,7 +33,7 @@ class Manager extends User
 
     public function __construct()
     {
-        parent::__construct();
+        //parent::__construct();
         $this->agents = new ArrayCollection();
     }
 
@@ -44,12 +44,12 @@ class Manager extends User
 
     public function getUserID(): ?User
     {
-        return $this->userID;
+        return $this->userId;
     }
 
-    public function setUserID(User $userID): self
+    public function setUserID(User $userId): self
     {
-        $this->userID = $userID;
+        $this->userId = $userId;
 
         return $this;
     }

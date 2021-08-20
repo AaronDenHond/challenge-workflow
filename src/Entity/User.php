@@ -49,7 +49,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $tickets;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity=Ticket::class, mappedBy="assignedToAgent")
+     */
+    private $assignedTickets;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -62,6 +65,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lastName;
 
 
+    /**
+     * @ORM\OneToOne(targetEntity=Manager::class, mappedBy="userId", cascade={"persist", "remove"})
+     */
+    private $manager;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Agent::class, mappedBy="userId", cascade={"persist", "remove"})
+     */
+    private $agent;
 
 
     public function __construct()
@@ -93,7 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -101,7 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -112,8 +124,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-
-
 
 
         return array_unique($roles);
@@ -230,7 +240,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-        return (string) $this->firstName;
+        return (string)$this->firstName;
+    }
+
+    public function getManager(): ?Manager
+    {
+        return $this->manager;
+    }
+
+    public function setManager(Manager $manager): self
+    {
+        // set the owning side of the relation if necessary
+        if ($manager->getUserID() !== $this) {
+            $manager->setUserID($this);
+        }
+
+        $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getAgent(): ?Agent
+    {
+        return $this->agent;
+    }
+
+    public function setAgent(Agent $agent): self
+    {
+        // set the owning side of the relation if necessary
+        if ($agent->getUserId() !== $this) {
+            $agent->setUserId($this);
+        }
+
+        $this->agent = $agent;
+
+        return $this;
     }
 
 }
