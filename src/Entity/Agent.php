@@ -74,7 +74,7 @@ class Agent extends User
 
         return $this;
     }
-    public function agentFromUser(User $user, $manager)
+    public function agentFromUser(User $user, Manager $manager)
     {
         $this->userId =($user);
         $this->setFirstName($user->getFirstName());

@@ -67,18 +67,20 @@ class UserController extends AbstractController
                 $agent = $agentRepository->findOneBy(['userId' => $user]);
 
 
-                if (!$agent) {
+                 if (!$agent) {
 
 
-                    $manager = $managerRepository->findOneBy(['userID' =>$this->getUser()->getId()]);
+                    $manager = $managerRepository->findOneBy(['userID' =>$this->getUser()]);
+                    var_dump($manager);
                     $newAgent = new Agent();
-                    $newAgent->AgentFromUser($user, $manager);
+                    $newAgent->agentFromUser($user, $manager);
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($newAgent);
                     $entityManager->flush();
+
                 } else {
                     var_dump($agent);
-                }
+                }  
 
 
             }
