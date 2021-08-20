@@ -37,5 +37,5 @@ security:
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
-    - { path: ^/ticket, roles: [ROLE_AGENT, ROLE_ADMIN] }
-    - { path: ^/user, roles: ROLE_ADMIN }
+    - { path: ^/tickets, roles: [ROLE_AGENT, ROLE_ADMIN] }
+    - { path: ^/users, roles: ROLE_ADMIN }

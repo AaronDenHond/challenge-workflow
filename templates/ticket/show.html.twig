@@ -45,6 +45,13 @@
 		</tbody>
 	</table>
 
+	{{ form(form) }}
+    {{ form_row(form.commentContent) }}
+    
+    {{ form_widget(form.save) }}
+
+    {{ form_end(form) }}
+
 	<a href="{{ path('ticket_index') }}">back to list</a>
 
 	<a href="{{ path('ticket_edit', {'id': ticket.id}) }}">edit</a>

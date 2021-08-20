@@ -73,3 +73,4 @@ TODO : add table header for comments etc.
 // Entity is Model in MVC AND Repositories are also Model, C is Controller, Form and Templates are View.
 // WE NEED RELATIONAL PROPERTIES IN BOTH ENTITIES FOR ORM.
 // PROPERTIES ARE NOT ALWAYS DISPLAYED IN DATABASE BUT USEFUL FOR ORM.
+// if eg you do agent.userId in template, you actually call the whole user object,because userId is the FK in agent. so if u want id : do agent.userId.id

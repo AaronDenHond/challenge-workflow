@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Ticket;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,14 +51,32 @@ class TicketController extends AbstractController
     }
 
      #[Route('/{id}', name: 'ticket_show', methods: ['GET'])]
-    public function show(Ticket $ticket): Response
+    public function show(Ticket $ticket, Request $request): Response
     {
      //LOGIC TO GET COMMENTS PER TICKET, NO NEED FOR CommentRepository like this.
         $comments = $ticket->getComments();
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        $user = $this->getUser();
+        
 
-        return $this->render('ticket/show.html.twig', [
+
+        if($form->isSubmitted() && ($form->isValid())) {
+            
+            $comment->setUserID($user);
+            $comment->setTicketID($ticket);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+        }
+        
+
+        return $this->renderForm('ticket/show.html.twig', [
             'ticket' => $ticket, 
             'comments' => $comments,
+            'form' => $form,
         ]);
     } 
 
