@@ -11,7 +11,7 @@ use App\Entity\User;
 /**
  * @ORM\Entity(repositoryClass=ManagerRepository::class)
  */
-class Manager extends User
+class Manager
 {
     /**
      * @ORM\Id

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=AgentRepository::class)
  */
-class Agent extends User
+class Agent
 {
     /**
      * @ORM\Id
@@ -77,14 +77,8 @@ class Agent extends User
     public function agentFromUser(User $user, Manager $manager)
     {
         $this->userId =($user);
-        $this->setFirstName($user->getFirstName());
-        $this->setLastName($user->getLastName());
-        $this->setEmail($user->getEmail());
-        $this->setPassword($user->getPassword());
         $this->setManagerId($manager);
-        $this->setIsSecondLine(false);
-        $this->setRoles($user->getRoles());
-
+        $this->setIsSecondLine(true);
     }
 
 

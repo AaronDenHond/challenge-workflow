@@ -65,12 +65,13 @@ class UserController extends AbstractController
             // is role agent is set
             if (in_array("ROLE_AGENT", $user->getRoles())) {
                 // checking whether user was an agent before
-                $agent = $agentRepository->findOneBy(['userId' => $user->getId()]);
+                $agent = $user->getAgent();
+                //$agent = $agentRepository->findOneBy(['userId' => $user->getId()]);
 
                 if (!$agent) {
-                    $manager = $managerRepository->findOneBy(["userId" => $this->getUser()]);
-                    var_dump($manager);
-                    //$manager = $managerRepository->findOneBy(array("userID" => 1));
+                    //$manager = $managerRepository->findOneBy(["userId" => $this->getUser()]);
+                    $manager = $this->getUser()->getManager();
+                    //var_dump($manager);
                     $newAgent = new Agent();
                     $newAgent->agentFromUser($user, $manager);
                     $entityManager = $this->getDoctrine()->getManager();
